@@ -44,22 +44,23 @@ export class WorkflowEntity extends AbstractEntity implements IWorkflowDb {
 	@Column()
 	active: boolean;
 
-	@Column(jsonColumnType)
+	@Column({ type: jsonColumnType, transformer: sqlite.jsonColumn })
 	nodes: INode[];
 
-	@Column(jsonColumnType)
+	@Column({ type: jsonColumnType, transformer: sqlite.jsonColumn })
 	connections: IConnections;
 
 	@Column({
 		type: jsonColumnType,
 		nullable: true,
+		transformer: sqlite.jsonColumn,
 	})
 	settings?: IWorkflowSettings;
 
 	@Column({
 		type: jsonColumnType,
 		nullable: true,
-		transformer: objectRetriever,
+		transformer: sqlite.jsonColumn,
 	})
 	staticData?: IDataObject;
 
@@ -88,7 +89,12 @@ export class WorkflowEntity extends AbstractEntity implements IWorkflowDb {
 	dataLoaded: boolean;
 
 	@Column({
-		type: config.getEnv('database.type') === 'sqlite' ? 'text' : 'json',
+		type:
+			config.getEnv('database.type') === 'sqlite'
+				? 'text'
+				: config.getEnv('database.type') === 'mssql'
+				? 'nvarchar'
+				: 'json',
 		nullable: true,
 		transformer: sqlite.jsonColumn,
 	})

@@ -165,7 +165,7 @@ export interface ICredentialsDecryptedResponse extends ICredentialsDecryptedDb {
 	id: string;
 }
 
-export type DatabaseType = 'mariadb' | 'postgresdb' | 'mysqldb' | 'sqlite';
+export type DatabaseType = 'mariadb' | 'postgresdb' | 'mysqldb' | 'sqlite' | 'mssql';
 export type SaveExecutionDataType = 'all' | 'none';
 
 export interface IExecutionBase {

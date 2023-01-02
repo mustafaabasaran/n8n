@@ -3,6 +3,7 @@ import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeor
 import { IsArray, IsObject, IsString, Length } from 'class-validator';
 import type { SharedCredentials } from './SharedCredentials';
 import { AbstractEntity, jsonColumnType } from './AbstractEntity';
+import { sqlite } from '../utils/transformers';
 import type { ICredentialsDb } from '@/Interfaces';
 
 @Entity()
@@ -31,7 +32,7 @@ export class CredentialsEntity extends AbstractEntity implements ICredentialsDb 
 	@OneToMany('SharedCredentials', 'credentials')
 	shared: SharedCredentials[];
 
-	@Column(jsonColumnType)
+	@Column({ type: jsonColumnType, transformer: sqlite.jsonColumn })
 	@IsArray()
 	nodesAccess: ICredentialNodeAccess[];
 }

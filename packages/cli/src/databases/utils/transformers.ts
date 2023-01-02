@@ -26,7 +26,7 @@ export const objectRetriever: ValueTransformer = {
  */
 const jsonColumn: ValueTransformer = {
 	to: (value: object): string | object =>
-		config.getEnv('database.type') === 'sqlite' ? JSON.stringify(value) : value,
+		config.getEnv('database.type') === 'sqlite' || 'mssql' ? JSON.stringify(value) : value,
 	from: (value: string | object): object => (typeof value === 'string' ? jsonParse(value) : value),
 };
 

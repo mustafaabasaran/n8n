@@ -2,6 +2,7 @@ import type { WorkflowExecuteMode } from 'n8n-workflow';
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { datetimeColumnType, jsonColumnType } from './AbstractEntity';
 import type { IExecutionFlattedDb, IWorkflowDb } from '@/Interfaces';
+import { sqlite } from '../utils/transformers';
 
 @Entity()
 @Index(['workflowId', 'id'])
@@ -35,7 +36,7 @@ export class ExecutionEntity implements IExecutionFlattedDb {
 	@Column({ type: datetimeColumnType, nullable: true })
 	stoppedAt: Date;
 
-	@Column(jsonColumnType)
+	@Column({ type: jsonColumnType, transformer: sqlite.jsonColumn })
 	workflowData: IWorkflowDb;
 
 	@Column({ nullable: true })

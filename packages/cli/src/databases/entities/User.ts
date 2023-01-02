@@ -16,7 +16,7 @@ import type { Role } from './Role';
 import type { SharedWorkflow } from './SharedWorkflow';
 import type { SharedCredentials } from './SharedCredentials';
 import { NoXss } from '../utils/customValidators';
-import { objectRetriever, lowerCaser } from '../utils/transformers';
+import { objectRetriever, lowerCaser, sqlite } from '../utils/transformers';
 import { AbstractEntity, jsonColumnType } from './AbstractEntity';
 import type { IPersonalizationSurveyAnswers, IUserSettings } from '@/Interfaces';
 
@@ -64,7 +64,7 @@ export class User extends AbstractEntity implements IUser {
 	@Column({
 		type: jsonColumnType,
 		nullable: true,
-		transformer: objectRetriever,
+		transformer: sqlite.jsonColumn,
 	})
 	personalizationAnswers: IPersonalizationSurveyAnswers | null;
 

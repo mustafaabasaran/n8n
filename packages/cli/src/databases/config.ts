@@ -2,12 +2,14 @@ import path from 'path';
 import type { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
 import type { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import type { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+import type { SqlServerConnectionOptions } from 'typeorm/driver/sqlserver/SqlServerConnectionOptions';
 import { UserSettings } from 'n8n-core';
 
 import { entities } from './entities';
 import { mysqlMigrations } from './migrations/mysqldb';
 import { postgresMigrations } from './migrations/postgresdb';
 import { sqliteMigrations } from './migrations/sqlite';
+import { sqlServerMigrations } from './migrations/sqlserver';
 import type { DatabaseType } from '@/Interfaces';
 import config from '@/config';
 import { getConfigValue } from '@/GenericHelpers';
@@ -17,6 +19,9 @@ const entitiesDir = path.resolve(__dirname, 'entities');
 const getDBConnectionOptions = (dbType: DatabaseType) => {
 	const entityPrefix = config.getEnv('database.tablePrefix');
 	const migrationsDir = path.resolve(__dirname, 'migrations', dbType);
+	console.log(__dirname);
+	console.log(entityPrefix);
+	console.log(migrationsDir);
 	const configDBType = dbType === 'mariadb' ? 'mysqldb' : dbType;
 	const connectionDetails =
 		configDBType === 'sqlite'
@@ -75,4 +80,10 @@ export const getMariaDBConnectionOptions = (): MysqlConnectionOptions => ({
 	type: 'mariadb',
 	...getDBConnectionOptions('mysqldb'),
 	migrations: mysqlMigrations,
+});
+
+export const getSqlServerConnectionOptions = (): SqlServerConnectionOptions => ({
+	type: 'mssql',
+	...getDBConnectionOptions('mssql'),
+	migrations: sqlServerMigrations,
 });

@@ -27,6 +27,7 @@ import {
 	getOptionOverrides,
 	getPostgresConnectionOptions,
 	getSqliteConnectionOptions,
+	getSqlServerConnectionOptions,
 } from '@db/config';
 
 export let isInitialized = false;
@@ -100,6 +101,15 @@ export async function init(
 
 			case 'sqlite':
 				connectionOptions = getSqliteConnectionOptions();
+				break;
+
+			case 'mssql':
+				connectionOptions = {
+					...getSqlServerConnectionOptions(),
+					extra: {
+						trustServerCertificate: true,
+					},
+				};
 				break;
 
 			default:

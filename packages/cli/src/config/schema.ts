@@ -32,8 +32,8 @@ export const schema = {
 	database: {
 		type: {
 			doc: 'Type of database to use',
-			format: ['sqlite', 'mariadb', 'mysqldb', 'postgresdb'] as const,
-			default: 'sqlite',
+			format: ['sqlite', 'mariadb', 'mysqldb', 'postgresdb', 'mssql'] as const,
+			default: 'mssql',
 			env: 'DB_TYPE',
 		},
 		tablePrefix: {
@@ -46,7 +46,7 @@ export const schema = {
 			enabled: {
 				doc: 'Typeorm logging enabled flag.',
 				format: Boolean,
-				default: false,
+				default: true,
 				env: 'DB_LOGGING_ENABLED',
 			},
 			options: {
@@ -157,6 +157,38 @@ export const schema = {
 				format: String,
 				default: 'root',
 				env: 'DB_MYSQLDB_USER',
+			},
+		},
+		mssql: {
+			database: {
+				doc: 'SqlServer Database',
+				format: String,
+				default: 'n8n',
+				env: 'DB_MSSQL_DATABASE',
+			},
+			host: {
+				doc: 'SqlServer Host',
+				format: String,
+				default: 'localhost',
+				env: 'DB_MSSQL_HOST',
+			},
+			password: {
+				doc: 'SqlServer Password',
+				format: String,
+				default: 'fipass_2w3e4r',
+				env: 'DB_MSSQL_PASSWORD',
+			},
+			port: {
+				doc: 'SqlServer Port',
+				format: Number,
+				default: 1433,
+				env: 'DB_MSSQL_PORT',
+			},
+			user: {
+				doc: 'SqlServer User',
+				format: String,
+				default: 'suficdc',
+				env: 'DB_MSSQL_USER',
 			},
 		},
 		sqlite: {

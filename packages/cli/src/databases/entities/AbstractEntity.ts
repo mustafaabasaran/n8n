@@ -1,5 +1,6 @@
 import { BeforeUpdate, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { IsDate, IsOptional } from 'class-validator';
+import { lowerCaser } from '../utils/transformers';
 import config from '@/config';
 
 const dbType = config.getEnv('database.type');
@@ -9,9 +10,14 @@ const timestampSyntax = {
 	postgresdb: 'CURRENT_TIMESTAMP(3)',
 	mysqldb: 'CURRENT_TIMESTAMP(3)',
 	mariadb: 'CURRENT_TIMESTAMP(3)',
+	mssql: 'GETUTCDATE()',
 }[dbType];
 
-export const jsonColumnType = dbType === 'sqlite' ? 'simple-json' : 'json';
+//export const jsonColumnType = dbType === 'sqlite' ? 'simple-json' : 'json';
+
+export const jsonColumnType =
+	dbType === 'sqlite' ? 'simple-json' : dbType === 'mssql' ? 'nvarchar' : 'json';
+
 export const datetimeColumnType = dbType === 'postgresdb' ? 'timestamptz' : 'datetime';
 
 export abstract class AbstractEntity {
